@@ -124,6 +124,7 @@ export function createTodoElements() {
 
   // Add button to the DOM
   document.body.appendChild(button);
+  return button;
 }
 
 // const taskDescription = document.createElement("p");
