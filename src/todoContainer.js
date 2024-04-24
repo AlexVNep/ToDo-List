@@ -11,22 +11,44 @@ export function createTodoElements() {
       event.preventDefault();
 
       //Get input values
+      const completed = document.querySelector("#completedInput");
       const title = document.querySelector("#titleInput").value;
       const dueDate = document.querySelector("#dueDateInput").value;
       const priority = document.querySelector("#priorityInput").value;
 
       // Create Todo object
-      const todo = new Todo(title, dueDate, priority);
+      const todo = new Todo(completed, title, dueDate, priority);
 
       //Create todo container div
       const todoContainer = document.createElement("div");
       todoContainer.classList.add("todo-container");
+
+      //Completed button element
+      const todoCompleted = document.createElement("button");
+      todoCompleted.classList.add("todoCompleted");
+      todoCompleted.textContent = "Complete";
+      todoContainer.appendChild(todoCompleted);
+      todoCompleted.addEventListener("click", () => {
+        document.body.removeChild(todoContainer);
+      });
 
       //Title element
       const todoTitle = document.createElement("h2");
       todoTitle.classList.add("todoTitle");
       todoTitle.textContent = todo.title;
       todoContainer.appendChild(todoTitle);
+
+      //Date element
+      const todoDueDate = document.createElement("p");
+      todoDueDate.classList.add("todoDueDate");
+      todoDueDate.textContent = todo.dueDate;
+      todoContainer.appendChild(todoDueDate);
+
+      // Priority element
+      const todoPriority = document.createElement("p");
+      todoPriority.classList.add("todoPriority");
+      todoPriority.textContent = todo.priority;
+      todoContainer.appendChild(todoPriority);
 
       // Add container to the DOM
       document.body.appendChild(todoContainer);
@@ -108,14 +130,3 @@ export function createTodoElements() {
 // taskDescription.classList.add("taskDescription");
 // taskDescription.textContent = "This is a placeholder for this element";
 // todoContainer.appendChild(taskDescription);
-
-// const dueDate = document.createElement("p");
-// dueDate.classList.add("dueDate");
-// dueDate.textContent = "This will be a date set from the form 23/04/2023";
-// todoContainer.appendChild(dueDate);
-
-// const priority = document.createElement("p");
-// priority.classList.add("priority");
-// priority.textContent =
-//   "This will be a drop down list to choose from after setting it in the form";
-// todoContainer.appendChild(priority);
