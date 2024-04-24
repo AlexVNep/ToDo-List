@@ -1,6 +1,6 @@
 import { Todo } from "./todoModule";
 
-export function createTodoElements(todo) {
+export function createTodoElements() {
   // Create button element
   const button = document.createElement("button");
   button.textContent = "Add Todo";
@@ -11,7 +11,7 @@ export function createTodoElements(todo) {
       event.preventDefault();
 
       //Get input values
-      const title = document.querySelector(".titleInput").value;
+      const title = document.querySelector("#titleInput").value;
       const dueDate = document.querySelector("#dueDateInput").value;
       const priority = document.querySelector("#priorityInput").value;
 
@@ -29,7 +29,7 @@ export function createTodoElements(todo) {
       todoContainer.appendChild(todoTitle);
 
       // Add container to the DOM
-      document.body.appendChild(container);
+      document.body.appendChild(todoContainer);
 
       // Clear form inputs
       document.querySelector("#titleInput").value = "";
@@ -57,7 +57,16 @@ export function createTodoElements(todo) {
     // Create priority input and label
     const priorityLabel = document.createElement("label");
     priorityLabel.textContent = "Priority:";
-    const priorityInput = document.createElement("input");
+    const priorityInput = document.createElement("select");
+    const priorityInput1 = document.createElement("option");
+    const priorityInput2 = document.createElement("option");
+    const priorityInput3 = document.createElement("option");
+    priorityInput1.textContent = "Low";
+    priorityInput2.textContent = "Medium";
+    priorityInput3.textContent = "High";
+    priorityInput.appendChild(priorityInput1);
+    priorityInput.appendChild(priorityInput2);
+    priorityInput.appendChild(priorityInput3);
     priorityInput.setAttribute("type", "text");
     priorityInput.setAttribute("id", "priorityInput");
 
@@ -65,6 +74,14 @@ export function createTodoElements(todo) {
     const submitButton = document.createElement("button");
     submitButton.setAttribute("type", "submit");
     submitButton.textContent = "Submit";
+
+    // Create cancel button
+    const cancelButton = document.createElement("button");
+    cancelButton.setAttribute("type", "button");
+    cancelButton.textContent = "Cancel";
+    cancelButton.addEventListener("click", () => {
+      document.body.removeChild(form);
+    });
 
     // Append elements to form
     form.appendChild(titleLabel);
@@ -77,6 +94,7 @@ export function createTodoElements(todo) {
     form.appendChild(priorityInput);
     form.appendChild(document.createElement("br"));
     form.appendChild(submitButton);
+    form.appendChild(cancelButton);
 
     // Add form to the DOM
     document.body.appendChild(form);
