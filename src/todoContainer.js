@@ -1,4 +1,7 @@
 import { Todo } from "./todoModule";
+import { navBar } from "./navBar";
+
+export const content = document.querySelector(".container");
 
 export function createTodoElements() {
   // Create button element
@@ -19,6 +22,11 @@ export function createTodoElements() {
       // Create Todo object
       const todo = new Todo(completed, title, dueDate, priority);
 
+      // Create task container
+      const taskContainer = document.createElement("div");
+      taskContainer.classList.add("taskContainer");
+      document.body.appendChild(taskContainer);
+
       //Create todo container div
       const todoContainer = document.createElement("div");
       todoContainer.classList.add("todo-container");
@@ -29,7 +37,7 @@ export function createTodoElements() {
       todoCompleted.textContent = "Complete";
       todoContainer.appendChild(todoCompleted);
       todoCompleted.addEventListener("click", () => {
-        document.body.removeChild(todoContainer);
+        taskContainer.removeChild(todoContainer);
       });
 
       //Title element
@@ -51,7 +59,7 @@ export function createTodoElements() {
       todoContainer.appendChild(todoPriority);
 
       // Add container to the DOM
-      document.body.appendChild(todoContainer);
+      taskContainer.appendChild(todoContainer);
 
       // Clear form inputs
       document.querySelector("#titleInput").value = "";
@@ -96,6 +104,20 @@ export function createTodoElements() {
     const submitButton = document.createElement("button");
     submitButton.setAttribute("type", "submit");
     submitButton.textContent = "Submit";
+    submitButton.addEventListener("click", () => {
+      const completed = document.querySelector("#completedInput");
+      const title = document.querySelector("#titleInput").value;
+      const dueDate = document.querySelector("#dueDateInput").value;
+      const priority = document.querySelector("#priorityInput").value;
+
+      const todo = new Todo(completed, title, dueDate, priority);
+
+      // Append todo.title to projects
+      const projects = document.querySelector(".projectsHeading");
+      const titleElement = document.createElement("p");
+      titleElement.textContent = todo.title;
+      projects.appendChild(titleElement);
+    });
 
     // Create cancel button
     const cancelButton = document.createElement("button");
@@ -123,7 +145,7 @@ export function createTodoElements() {
   });
 
   // Add button to the DOM
-  document.body.appendChild(button);
+  content.appendChild(button);
   return button;
 }
 
