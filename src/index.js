@@ -2,6 +2,7 @@ import { getHomePage } from "./homePage.js";
 import { getAddTask } from "./todoContainer.js";
 import { getInboxPage } from "./inboxPage.js";
 import { getTodayPage } from "./todayPage.js";
+import { getProjectsPage } from "./projects.js";
 import "./style.css";
 
 const navContainer = document.querySelector(".navContainer");
@@ -53,13 +54,15 @@ today.addEventListener("click", () => {
   content.append(getTodayPage());
 });
 
-const projects = document.createElement("div");
+const projects = document.createElement("button");
 projects.classList.add("projectsHeading");
 projects.textContent = "Projects";
 navContainer.appendChild(projects);
 
+projects.addEventListener("click", () => {
+  content.replaceChildren();
+  content.append(getProjectsPage());
+});
+
 content.append(getHomePage());
-// export function getNavContainer() {
-//   return navContainer;
-// }
 console.log("I worked");
