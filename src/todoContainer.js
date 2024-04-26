@@ -10,6 +10,7 @@ addTaskPage.appendChild(addTaskTitle);
 
 // Create button element
 const button = document.createElement("button");
+button.classList.add("addTaskButton");
 button.textContent = "Add Todo";
 button.addEventListener("click", () => {
   //Create form element
@@ -41,7 +42,7 @@ button.addEventListener("click", () => {
     todoCompleted.textContent = "Complete";
     todoContainer.appendChild(todoCompleted);
     todoCompleted.addEventListener("click", () => {
-      taskContainer.removeChild(todoContainer);
+      addTaskPage.removeChild(taskContainer);
     });
     todoCompleted.addEventListener("click", () => {
       projects.removeChild(titleElement);
