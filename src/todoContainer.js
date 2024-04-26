@@ -43,6 +43,9 @@ button.addEventListener("click", () => {
     todoCompleted.addEventListener("click", () => {
       taskContainer.removeChild(todoContainer);
     });
+    todoCompleted.addEventListener("click", () => {
+      projects.removeChild(titleElement);
+    });
 
     //Title element
     const todoTitle = document.createElement("h2");
@@ -71,7 +74,7 @@ button.addEventListener("click", () => {
     document.querySelector("#priorityInput").value = "";
 
     // Remove form from the DOM
-    document.body.removeChild(form);
+    addTaskPage.removeChild(form);
   });
 
   // Create title input and label
@@ -108,6 +111,8 @@ button.addEventListener("click", () => {
   const submitButton = document.createElement("button");
   submitButton.setAttribute("type", "submit");
   submitButton.textContent = "Submit";
+  const projects = document.querySelector(".projectsHeading");
+  const titleElement = document.createElement("p");
   submitButton.addEventListener("click", () => {
     const completed = document.querySelector("#completedInput");
     const title = document.querySelector("#titleInput").value;
@@ -117,8 +122,7 @@ button.addEventListener("click", () => {
     const todo = new Todo(completed, title, dueDate, priority);
 
     // Append todo.title to projects
-    const projects = document.querySelector(".projectsHeading");
-    const titleElement = document.createElement("p");
+
     titleElement.textContent = todo.title;
     projects.appendChild(titleElement);
   });
@@ -128,7 +132,7 @@ button.addEventListener("click", () => {
   cancelButton.setAttribute("type", "button");
   cancelButton.textContent = "Cancel";
   cancelButton.addEventListener("click", () => {
-    document.body.removeChild(form);
+    addTaskPage.removeChild(form);
   });
 
   // Append elements to form
@@ -145,7 +149,7 @@ button.addEventListener("click", () => {
   form.appendChild(cancelButton);
 
   // Add form to the DOM
-  document.body.appendChild(form);
+  addTaskPage.appendChild(form);
 });
 
 // Add button to the DOM
