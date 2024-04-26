@@ -2,6 +2,7 @@ import { getHomePage } from "./homePage.js";
 import { getAddTask } from "./todoContainer.js";
 import { getInboxPage } from "./inboxPage.js";
 import { getTodayPage } from "./todayPage.js";
+import "./style.css";
 
 const navContainer = document.querySelector(".navContainer");
 const content = document.querySelector(".container");
