@@ -12,154 +12,131 @@ addTaskPage.appendChild(addTaskTitle);
 const button = document.createElement("button");
 button.classList.add("addTaskButton");
 button.textContent = "Add Todo";
-button.addEventListener("click", () => {
-  //Create form element
-  const form = document.createElement("form");
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
+button.addEventListener("click", addTaskButtonClickHandler);
 
-    //Get input values
-    const completed = document.querySelector("#completedInput");
-    const title = document.querySelector("#titleInput").value;
-    const dueDate = document.querySelector("#dueDateInput").value;
-    const priority = document.querySelector("#priorityInput").value;
+let form; // form needs to be accessible in removeTaskHandler
 
-    // Create Todo object
-    const todo = new Todo(completed, title, dueDate, priority);
+function createForm() {
+  form = document.createElement("form");
+  form.addEventListener("submit", submitFormHandler);
 
-    // Create task container
-    const taskContainer = document.createElement("div");
-    taskContainer.classList.add("taskContainer");
-    addTaskPage.appendChild(taskContainer);
-
-    //Create todo container div
-    const todoContainer = document.createElement("div");
-    todoContainer.classList.add("todo-container");
-
-    //Completed button element
-    const todoCompleted = document.createElement("button");
-    todoCompleted.classList.add("todoCompleted");
-    todoCompleted.textContent = "Complete";
-    todoContainer.appendChild(todoCompleted);
-    todoCompleted.addEventListener("click", () => {
-      addTaskPage.removeChild(taskContainer);
-    });
-    todoCompleted.addEventListener("click", () => {
-      projects.removeChild(titleElement);
-    });
-
-    //Title element
-    const todoTitle = document.createElement("h2");
-    todoTitle.classList.add("todoTitle");
-    todoTitle.textContent = todo.title;
-    todoContainer.appendChild(todoTitle);
-
-    //Date element
-    const todoDueDate = document.createElement("p");
-    todoDueDate.classList.add("todoDueDate");
-    todoDueDate.textContent = todo.dueDate;
-    todoContainer.appendChild(todoDueDate);
-
-    // Priority element
-    const todoPriority = document.createElement("p");
-    todoPriority.classList.add("todoPriority");
-    todoPriority.textContent = todo.priority;
-    todoContainer.appendChild(todoPriority);
-
-    // Add container to the DOM
-    taskContainer.appendChild(todoContainer);
-
-    // Clear form inputs
-    document.querySelector("#titleInput").value = "";
-    document.querySelector("#dueDateInput").value = "";
-    document.querySelector("#priorityInput").value = "";
-
-    // Remove form from the DOM
-    addTaskPage.removeChild(form);
-  });
-
-  // Create title input and label
-  const titleLabel = document.createElement("label");
-  titleLabel.textContent = "Title:";
-  const titleInput = document.createElement("input");
-  titleInput.setAttribute("type", "text");
-  titleInput.setAttribute("id", "titleInput");
-
-  // Create due date input and label
-  const dueDateLabel = document.createElement("label");
-  dueDateLabel.textContent = "Due Date:";
-  const dueDateInput = document.createElement("input");
-  dueDateInput.setAttribute("type", "date");
-  dueDateInput.setAttribute("id", "dueDateInput");
-
-  // Create priority input and label
-  const priorityLabel = document.createElement("label");
-  priorityLabel.textContent = "Priority:";
-  const priorityInput = document.createElement("select");
-  const priorityInput1 = document.createElement("option");
-  const priorityInput2 = document.createElement("option");
-  const priorityInput3 = document.createElement("option");
-  priorityInput1.textContent = "Low";
-  priorityInput2.textContent = "Medium";
-  priorityInput3.textContent = "High";
-  priorityInput.appendChild(priorityInput1);
-  priorityInput.appendChild(priorityInput2);
-  priorityInput.appendChild(priorityInput3);
-  priorityInput.setAttribute("type", "text");
-  priorityInput.setAttribute("id", "priorityInput");
-
-  // Create submit button
-  const submitButton = document.createElement("button");
-  submitButton.setAttribute("type", "submit");
-  submitButton.textContent = "Submit";
-  const projects = document.querySelector(".projectsHeading");
-  const titleElement = document.createElement("p");
-  submitButton.addEventListener("click", () => {
-    const completed = document.querySelector("#completedInput");
-    const title = document.querySelector("#titleInput").value;
-    const dueDate = document.querySelector("#dueDateInput").value;
-    const priority = document.querySelector("#priorityInput").value;
-
-    const todo = new Todo(completed, title, dueDate, priority);
-
-    // Append todo.title to projects
-
-    titleElement.textContent = todo.title;
-    projects.appendChild(titleElement);
-  });
-
-  // Create cancel button
   const cancelButton = document.createElement("button");
   cancelButton.setAttribute("type", "button");
   cancelButton.textContent = "Cancel";
-  cancelButton.addEventListener("click", () => {
-    addTaskPage.removeChild(form);
-  });
+  cancelButton.addEventListener("click", cancelButtonClickHandler);
 
-  // Append elements to form
   form.appendChild(titleLabel);
   form.appendChild(titleInput);
-  form.appendChild(document.createElement("br"));
+
   form.appendChild(dueDateLabel);
   form.appendChild(dueDateInput);
-  form.appendChild(document.createElement("br"));
   form.appendChild(priorityLabel);
   form.appendChild(priorityInput);
-  form.appendChild(document.createElement("br"));
   form.appendChild(submitButton);
   form.appendChild(cancelButton);
 
-  // Add form to the DOM
-  addTaskPage.appendChild(form);
-});
+  return form;
+}
+
+function addTaskButtonClickHandler() {
+  const newForm = createForm();
+  addTaskPage.appendChild(newForm);
+}
+
+function submitFormHandler(event) {
+  event.preventDefault();
+
+  const completed = document.querySelector("#completedInput");
+  const title = document.querySelector("#titleInput").value;
+  const dueDate = document.querySelector("#dueDateInput").value;
+  const priority = document.querySelector("#priorityInput").value;
+
+  const todo = new Todo(completed, title, dueDate, priority);
+
+  const taskContainer = document.createElement("div");
+  taskContainer.classList.add("taskContainer");
+
+  const todoContainer = document.createElement("div");
+  todoContainer.classList.add("todo-container");
+
+  const completedButton = document.createElement("button");
+  completedButton.classList.add("todoCompleted");
+  completedButton.textContent = "Complete";
+  completedButton.addEventListener("click", removeTaskHandler);
+
+  const titleElement = document.createElement("h2");
+  titleElement.classList.add("todoTitle");
+  titleElement.textContent = todo.title;
+
+  const dueDateElement = document.createElement("p");
+  dueDateElement.classList.add("todoDueDate");
+  dueDateElement.textContent = todo.dueDate;
+
+  const priorityElement = document.createElement("p");
+  priorityElement.classList.add("todoPriority");
+  priorityElement.textContent = todo.priority;
+
+  taskContainer.appendChild(todoContainer);
+  todoContainer.appendChild(completedButton);
+  todoContainer.appendChild(titleElement);
+  todoContainer.appendChild(dueDateElement);
+  todoContainer.appendChild(priorityElement);
+
+  addTaskPage.appendChild(taskContainer);
+
+  document.querySelector("#titleInput").value = "";
+  document.querySelector("#dueDateInput").value = "";
+  document.querySelector("#priorityInput").value = "";
+
+  addTaskPage.removeChild(form);
+}
+
+function cancelButtonClickHandler() {
+  addTaskPage.removeChild(form);
+}
+
+function removeTaskHandler() {
+  addTaskPage.removeChild(this.parentElement.parentElement); // this refers to the button that was clicked
+}
+
+// Create title input and label
+const titleLabel = document.createElement("label");
+titleLabel.textContent = "Title:";
+const titleInput = document.createElement("input");
+titleInput.setAttribute("type", "text");
+titleInput.setAttribute("id", "titleInput");
+
+// Create due date input and label
+const dueDateLabel = document.createElement("label");
+dueDateLabel.textContent = "Due Date:";
+const dueDateInput = document.createElement("input");
+dueDateInput.setAttribute("type", "date");
+dueDateInput.setAttribute("id", "dueDateInput");
+
+// Create priority input and label
+const priorityLabel = document.createElement("label");
+priorityLabel.textContent = "Priority:";
+const priorityInput = document.createElement("select");
+const priorityInput1 = document.createElement("option");
+const priorityInput2 = document.createElement("option");
+const priorityInput3 = document.createElement("option");
+priorityInput1.textContent = "Low";
+priorityInput2.textContent = "Medium";
+priorityInput3.textContent = "High";
+priorityInput.appendChild(priorityInput1);
+priorityInput.appendChild(priorityInput2);
+priorityInput.appendChild(priorityInput3);
+priorityInput.setAttribute("type", "text");
+priorityInput.setAttribute("id", "priorityInput");
+
+// Create submit button
+const submitButton = document.createElement("button");
+submitButton.setAttribute("type", "submit");
+submitButton.textContent = "Submit";
 
 // Add button to the DOM
 addTaskPage.appendChild(button);
+
 export function getAddTask() {
   return addTaskPage;
 }
-
-// const taskDescription = document.createElement("p");
-// taskDescription.classList.add("taskDescription");
-// taskDescription.textContent = "This is a placeholder for this element";
-// todoContainer.appendChild(taskDescription);
