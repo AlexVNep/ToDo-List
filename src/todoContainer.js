@@ -1,4 +1,5 @@
 import { Todo } from "./todoModule";
+import { updateProjectChoiceInput } from "./projects";
 
 const addTaskPage = document.createElement("div");
 addTaskPage.classList.add("addTaskPage");
@@ -32,6 +33,8 @@ function createForm() {
   form.appendChild(dueDateInput);
   form.appendChild(priorityLabel);
   form.appendChild(priorityInput);
+  form.appendChild(projectNameLabel);
+  form.appendChild(projectChoiceInput);
   form.appendChild(submitButton);
   form.appendChild(cancelButton);
 
@@ -50,8 +53,11 @@ function submitFormHandler(event) {
   const title = document.querySelector("#titleInput").value;
   const dueDate = document.querySelector("#dueDateInput").value;
   const priority = document.querySelector("#priorityInput").value;
+  const projectChoiceInput = document.querySelector("#projectChoiceInput");
+  const projectName =
+    projectChoiceInput.options[projectChoiceInput.selectedIndex].textContent;
 
-  const todo = new Todo(completed, title, dueDate, priority);
+  const todo = new Todo(completed, title, dueDate, priority, projectName);
 
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("taskContainer");
@@ -76,17 +82,23 @@ function submitFormHandler(event) {
   priorityElement.classList.add("todoPriority");
   priorityElement.textContent = todo.priority;
 
+  const projectNameElement = document.createElement("p");
+  projectNameElement.classList.add("todoProjectName");
+  projectNameElement.textContent = projectName;
+
   taskContainer.appendChild(todoContainer);
   todoContainer.appendChild(completedButton);
   todoContainer.appendChild(titleElement);
   todoContainer.appendChild(dueDateElement);
   todoContainer.appendChild(priorityElement);
+  todoContainer.appendChild(projectNameElement);
 
   addTaskPage.appendChild(taskContainer);
 
   document.querySelector("#titleInput").value = "";
   document.querySelector("#dueDateInput").value = "";
   document.querySelector("#priorityInput").value = "";
+  document.querySelector("#projectChoiceInput").value = "";
 
   addTaskPage.removeChild(form);
 }
@@ -128,6 +140,17 @@ priorityInput.appendChild(priorityInput2);
 priorityInput.appendChild(priorityInput3);
 priorityInput.setAttribute("type", "text");
 priorityInput.setAttribute("id", "priorityInput");
+
+// Create project name input and label
+const projectNameLabel = document.createElement("label");
+projectNameLabel.textContent = "Project:";
+export const projectChoiceInput = document.createElement("select");
+projectChoiceInput.addEventListener("input", updateProjectChoiceInput);
+projectChoiceInput.setAttribute("type", "text");
+projectChoiceInput.setAttribute("id", "projectChoiceInput");
+const projectNameInput1 = document.createElement("option");
+projectNameInput1.textContent = "Select Project";
+projectChoiceInput.appendChild(projectNameInput1);
 
 // Create submit button
 const submitButton = document.createElement("button");
